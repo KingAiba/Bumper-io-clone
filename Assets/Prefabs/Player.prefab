@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   rotationSpeed: 15
-  pushStrength: 30
+  pushStrength: 20
   kills: 0
   isDead: 0
   pushedBy: {fileID: 0}
@@ -150,6 +150,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3747105a45693a64b9da0e9834bd69fa, type: 2}
   - {fileID: 2100000, guid: ffb58de44e0b4634f9c1ec5d32df55d2, type: 2}
   - {fileID: 2100000, guid: 12f1a49f8df25ad49bf9a0cadcf945df, type: 2}
+  currMat: 0
+  gameManager: {fileID: 0}
 --- !u!1001 &2007821234471174713
 PrefabInstance:
   m_ObjectHideFlags: 0

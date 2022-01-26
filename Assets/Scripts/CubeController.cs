@@ -8,6 +8,11 @@ public class CubeController : MonoBehaviour
     public float rotationSpeed = 20.0f;
     public float pushStrength = 20.0f;
 
+    public float massModifier = 1;
+
+    public float initialScale = 1;
+    public float initialMass = 1;
+
     public int kills = 0;
     public bool isDead = false;
 
@@ -17,9 +22,12 @@ public class CubeController : MonoBehaviour
 
     public List<Material> cubeMaterials;
     public int currMat = 0;
+
     private MeshRenderer cubeRenderer;
 
     public GameManager gameManager;
+    public int id;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +41,14 @@ public class CubeController : MonoBehaviour
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameManager.AddToList(gameObject);
+
+        SetInitialScaleMass(initialScale, initialMass);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        DeathCheck();
+       DeathCheck();
     }
 
     public void moveCube(Vector3 moveDirection)
@@ -57,7 +67,8 @@ public class CubeController : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed);
+            cubeRB.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed));
         }
 
     }
@@ -91,19 +102,25 @@ public class CubeController : MonoBehaviour
 
     public void CubeUpdateOnKill()
     {
+        // change size, mass, material on kill
         UpdateSize();
         UpdateMass();
         UpdateMaterial();
+        // update leaderboard entry on kill
+        gameManager.UpdateLeaderboardItem(id, kills);
     }
 
     public void UpdateSize()
     {
-        transform.localScale = new Vector3(kills + 1, kills + 1, kills + 1);
+        transform.localScale = new Vector3(initialScale + kills, initialScale + kills, initialScale + kills);
     }
     
     public void UpdateMass()
     {
-        cubeRB.mass = transform.localScale.x * 1;
+        if(cubeRB)
+        {
+            cubeRB.mass = initialMass + (transform.localScale.x * massModifier);
+        }       
     }
 
     public void UpdateMaterial()
@@ -140,4 +157,23 @@ public class CubeController : MonoBehaviour
         yield return new WaitForSeconds(5);
         pushedBy = null;
     }
+
+    public void SetInitialScale(float val)
+    {
+        initialScale = val;
+    }
+    public void SetInitialMass(float val)
+    {
+        initialMass = val;
+    }
+
+    public void SetInitialScaleMass(float scale, float mass)
+    {
+        SetInitialScale(scale);
+        SetInitialMass(mass);
+
+        UpdateSize();
+        UpdateMass();
+    }
+
 }

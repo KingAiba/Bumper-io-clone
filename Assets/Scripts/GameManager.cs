@@ -1,11 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
+[System.Serializable]
+public class LeaderboardItem
+{
+    public int id;
+    public string tag;
+    public int kills;
+}
+
 
 public class GameManager : MonoBehaviour
 {
 
     public List<GameObject> ActiveObjects = new List<GameObject>();
+
+    public List<LeaderboardItem> LeaderboardList = new List<LeaderboardItem>();
+
+    public TMP_Text LeaderboardText;
+
+    public int currID;
 
     // Start is called before the first frame update
     void Start()
@@ -17,17 +33,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateLeaderboard();
     }
 
     public void AddToList(GameObject newTarget)
     {
         ActiveObjects.Add(newTarget);
+        newTarget.GetComponent<CubeController>().id = GetNewID();
     }
 
     public void RemoveFromList(GameObject target)
     {
         ActiveObjects.Remove(target);
+    }
+
+    public int GetNewID()
+    {
+        return currID++;
     }
 
     public float GetGreatestDistance()
@@ -89,4 +111,56 @@ public class GameManager : MonoBehaviour
 
         return new Vector3(centerX / ActiveObjects.Count, centerY / ActiveObjects.Count, centerZ / ActiveObjects.Count);
     }
+
+    public void InitializeLeaderboard()
+    {
+        if(LeaderboardList.Count == 0)
+        {
+            LeaderboardList = new List<LeaderboardItem>();
+            foreach(GameObject GO in ActiveObjects)
+            {
+                CubeController currCube = GO.GetComponent<CubeController>();
+                LeaderboardItem curritem = new LeaderboardItem();
+
+                curritem.id = currCube.id;
+                curritem.tag = GO.tag;
+                curritem.kills = currCube.kills;
+
+                LeaderboardList.Add(curritem);
+            }
+        }
+    }
+
+    public void SortLeaderboardListByKills()
+    {
+        LeaderboardList.Sort((obj1, obj2) => obj2.kills.CompareTo(obj1.kills));
+    }
+
+    public void UpdateLeaderboardItem(int id, int kills)
+    {
+        LeaderboardItem item = LeaderboardList.Find(obj => obj.id == id);
+        item.kills = kills;
+        //Debug.Log(item.id + " | " + item.tag + " | " + item.kills);
+        SortLeaderboardListByKills();
+    }
+
+    public void UpdateLeaderboard()
+    {
+        InitializeLeaderboard();
+
+        string output = "";
+        // Debug.Log(LeaderboardList);
+        foreach(LeaderboardItem item in LeaderboardList)
+        {
+            output += item.id + " | "+ item.tag + " | "+ item.kills + "\n";
+        }
+
+        SetLeaderboardText(output);
+    }
+
+    public void SetLeaderboardText(string text)
+    {
+        LeaderboardText.SetText(text);
+    }
+
 }

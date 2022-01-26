@@ -46,3 +46,7 @@ MonoBehaviour:
   spawnRangeX: 18
   spawnRangeZ: 18
   enemyPrefabs: {fileID: 1075121706813709862, guid: 624a625b4e420684d99dfc0711ae6282, type: 3}
+  minEnemyMass: 1
+  maxEnemyMass: 2
+  minEnemyScale: 1
+  maxEnemyScale: 3

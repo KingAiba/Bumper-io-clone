@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
         else
         {
             lookDirection = (target.transform.position - transform.position).normalized;
+            Debug.Log(lookDirection);
         }
         
     }

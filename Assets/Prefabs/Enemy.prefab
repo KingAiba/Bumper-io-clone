@@ -142,9 +142,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5483ec8b9d3bbb40ad268a02c00e84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 15
   rotationSpeed: 10
-  pushStrength: 8
+  pushStrength: 10
+  massModifier: 1
+  initialScale: 1
+  initialMass: 1
   kills: 0
   isDead: 0
   pushedBy: {fileID: 0}
@@ -152,6 +155,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 885e70dbaa181c74483bf7566770c2ff, type: 2}
   - {fileID: 2100000, guid: cc882392ca7a63047b435832f2070207, type: 2}
   - {fileID: 2100000, guid: 74a10d89e689a234c98023623b01395c, type: 2}
+  currMat: 0
+  gameManager: {fileID: 0}
+  id: 0
 --- !u!1001 &5729047455134684006
 PrefabInstance:
   m_ObjectHideFlags: 0
