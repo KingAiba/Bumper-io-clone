@@ -16,10 +16,16 @@ public class PushTriggerScript : MonoBehaviour
     {
         
     }
+    private void OnTriggerExit(Collider other)
+    {
+        inPushRange = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
+        //&& other.gameObject != gameObject
+        //inPushRange = false;
+        if ((other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player")))
         {
             inPushRange = true;
         }

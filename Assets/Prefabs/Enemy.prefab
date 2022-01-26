@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7dbc7ffa30ab1d4d9cb85dfaf77f436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationEnabled: 1
-  movementEnabled: 1
+  rotationEnabled: 0
+  movementEnabled: 0
   target: {fileID: 0}
 --- !u!114 &1075121706813709871
 MonoBehaviour:

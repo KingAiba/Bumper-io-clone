@@ -68,7 +68,12 @@ public class CubeController : MonoBehaviour
         else
         {
             //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed);
-            cubeRB.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed));
+            //cubeRB.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed));
+
+            Quaternion rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * rotationSpeed);
+            cubeRB.MoveRotation(new Quaternion( 0, rotation.y, 0, rotation.w));
+
+            //cubeRB.AddRelativeTorque(rotation.eulerAngles * 100, ForceMode.Acceleration);
         }
 
     }
@@ -154,7 +159,7 @@ public class CubeController : MonoBehaviour
 
     IEnumerator PushedByDuration()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8);
         pushedBy = null;
     }
 
